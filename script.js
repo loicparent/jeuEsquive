@@ -20,11 +20,11 @@
         },
         "utils" : {}
     };
-    var aBubbles = [];
-    var nBonus = 0;
-    var start = new Audio("./sounds/start.mp3");
-    var gOSound = new Audio("./sounds/lose.mp3");
-    var bubbleAdd = new Audio("./sounds/bubble+.mp3");
+    var aBubbles = [],
+        nBonus = 0,
+        start = new Audio("./sounds/start.mp3"),
+        gOSound = new Audio("./sounds/lose.mp3"),
+        bubbleAdd = new Audio("./sounds/bubble+.mp3");
 
     app.utils.isCanvasSupported = function( $canvas ) {
         return !!$canvas.getContext; // !! permet de convertir en booleen.
@@ -146,7 +146,11 @@
                 aBubbles[j].speedY = - aBubbles[j].speedY;
              }
             // Vérifier si on touche une boule.
-            if ( app.mouse.x > ( aBubbles[j].posX - aBubbles[j].radius ) && app.mouse.x < ( aBubbles[j].posX + aBubbles[j].radius ) && app.mouse.y > ( aBubbles[j].posY - aBubbles[j].radius ) && app.mouse.y < ( aBubbles[j].posY + aBubbles[j].radius ) ) {
+            var iDeltaX = Math.abs( aBubbles[j].posX - app.mouse.x ),
+                iDeltaY = Math.abs( aBubbles[j].posY - app.mouse.y ),
+                iDistance = Math.sqrt( ( Math.pow(  iDeltaX, 2 ) + Math.pow( iDeltaY, 2 ) ), 2 );
+
+            if ( iDistance, iDistance < aBubbles[j].radius ) {
                 gOSound.play();
                 gameOver();
             }
