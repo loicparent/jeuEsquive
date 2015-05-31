@@ -54,6 +54,9 @@ h2 {
     animation-iteration-count: infinite;
     cursor: pointer;
 }
+h2:hover {
+    color: #fff;
+}
 p.info {
     text-align: center;
 }

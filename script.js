@@ -22,6 +22,9 @@
     };
     var aBubbles = [];
     var nBonus = 0;
+    var start = new Audio("./sounds/start.mp3");
+    var gOSound = new Audio("./sounds/lose.mp3");
+    var bubbleAdd = new Audio("./sounds/bubble+.mp3");
 
     app.utils.isCanvasSupported = function( $canvas ) {
         return !!$canvas.getContext; // !! permet de convertir en booleen.
@@ -62,6 +65,7 @@
 
         // Lancer le jeu au clic sur le H2
         document.querySelector( 'h2' ).addEventListener('mousedown', function(evt) {
+            start.play();
             var button = document.querySelector( 'h2' );
             button.parentNode.removeChild(button);
             that.createBonus();
@@ -78,6 +82,7 @@
             this.speedX = Math.floor(Math.random() * (15 - 8)) + 8,
             this.speedY = Math.floor(Math.random() * (15 - 8)) + 8,
             this.colour = Math.floor(Math.random() * (350 - 30)) + 30;
+            this.bounce = new Audio("./sounds/bounce.mp3");
     };
 
     app.animation.createBonus = function() {
@@ -91,9 +96,12 @@
 
         // vérifier si on a touché le bonus
         if ( app.mouse.x > ( x - size ) && app.mouse.x < ( x + size ) && app.mouse.y > ( y - size ) && app.mouse.y < ( y + size ) ) {
+            var bonusSound = new Audio("./sounds/bonus.mp3");
+            bonusSound.play();
             this.changeBonus();
         }
         if( nBonus === app.bonus.level ){
+            bubbleAdd.play();
             app.bonus.level += 10;
             this.adBubbles( 1 );
         }
@@ -129,14 +137,17 @@
         for (var j = 0; j <aBubbles.length; j++) {
             // vérifier si on ricoche sur la largeur
             if((aBubbles[j].posX + aBubbles[j].speedX + aBubbles[j].radius > 0 + this.width) || (aBubbles[j].posX - aBubbles[j].radius + aBubbles[j].speedX < 0)){
+                aBubbles[j].bounce.play();
                 aBubbles[j].speedX = - aBubbles[j].speedX;
              }
              // vérifier si on ricoche sur le hauteur
              if((aBubbles[j].posY + aBubbles[j].speedY + aBubbles[j].radius > 0 + this.height) || (aBubbles[j].posY - aBubbles[j].radius + aBubbles[j].speedY < 0)){
-                 aBubbles[j].speedY = - aBubbles[j].speedY;
+                aBubbles[j].bounce.play();
+                aBubbles[j].speedY = - aBubbles[j].speedY;
              }
             // Vérifier si on touche une boule.
             if ( app.mouse.x > ( aBubbles[j].posX - aBubbles[j].radius ) && app.mouse.x < ( aBubbles[j].posX + aBubbles[j].radius ) && app.mouse.y > ( aBubbles[j].posY - aBubbles[j].radius ) && app.mouse.y < ( aBubbles[j].posY + aBubbles[j].radius ) ) {
+                gOSound.play();
                 gameOver();
             }
             aBubbles[j].posX += aBubbles[j].speedX;
