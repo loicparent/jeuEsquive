@@ -57,7 +57,14 @@ h2 {
 h2:hover {
     color: #fff;
 }
-p.info {
+.sounds {
+    margin-top: 2em;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.info {
     text-align: center;
 }
 canvas {
